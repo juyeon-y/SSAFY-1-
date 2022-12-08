@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.interest.mapper.InterestMapper">
+
+	<resultMap id="environment" type="com.ssafy.home.interest.dto.Environment">
+	  <result column="idx" property="idx"/>
+	  <result column="WRKP_NM" property="wrkpNm"/>
+	  <result column="UPCH_COB_CODE" property="upchCobCode"/>
+	  <result column="UPCH_COB_NM" property="upchCobNm"/>
+	  <result column="ORG_AND_TEAM_CODE" property="orgAndTeamCode"/>
+	  <result column="SF_TEAM_NM" property="sfTeamNm"/>
+	  <result column="DRT_INSP_SE_NM" property="drtInspSeNm"/>
+	  <result column="DISPO_TGT_YN" property="dispoTgtYn"/>
+	  <result column="DRT_INSP_ITEM" property="drtInspItem"/>
+	  <result column="DRT_INSP_RT_DTL" property="drtInspRtDtl"/>
+	  <result column="dongcode" property="dongcode"/>
+	  <result column="address" property="address"/>
+	  <result column="DRT_INSP_YMD" property="drtInspYmd"/>
+	</resultMap>
+	
+	<resultMap id="business" type="com.ssafy.home.interest.dto.Business">
+	  <result column="idx" property="idx"/>
+	  <result column="dongcode" property="dongcode"/>
+	  <result column="bizname" property="bizname"/>
+	  <result column="maincategory" property="maincategory"/>
+	  <result column="middleclass" property="middleclass"/>
+	  <result column="subcategory" property="subcategory"/>
+	  <result column="category" property="category"/>
+	  <result column="address" property="address"/>
+	  <result column="lng" property="lng"/>
+	  <result column="lat" property="lat"/>
+	</resultMap>
+	
+	<resultMap id="hospital" type="com.ssafy.home.interest.dto.Hospital">
+	  <result column="hospitalname" property="hospitalname"/>
+	  <result column="sidoname" property="sidoname"/>
+	  <result column="sigugunname" property="sigugunname"/>
+	  <result column="address" property="address"/>
+	  <result column="applicationtype" property="applicationtype"/>
+	  <result column="phone" property="phone"/>
+	</resultMap>
+	
+	<resultMap id="clinic" type="com.ssafy.home.interest.dto.Clinic">
+	  <result column="sidoname" property="sidoname"/>
+	  <result column="sigugunname" property="sigugunname"/>
+	  <result column="clinicname" property="clinicname"/>
+	  <result column="address" property="address"/>
+	  <result column="daytime" property="daytime"/>
+	  <result column="saturdaytime" property="saturdaytime"/>
+	  <result column="sundaytime" property="sundaytime"/>
+	  <result column="redtime" property="redtime"/>
+	  <result column="phone" property="phone"/>
+	</resultMap>
+
+	<select id="selectEnvInspInfo" resultMap="environment">
+		select * from environment where dongcode = (select dongcode from interestplace where email = #{loginEmail}) limit 10
+	</select>
+	
+	<select id="selectBizInfo" resultMap="business">
+		select * from business where dongcode = (select dongcode from interestplace where email = #{loginEmail}) limit 10
+	</select>
+	
+	<select id="selectHospitalInfo" resultMap="hospital">
+		select * from hospital where sigugunname = (select gugunName from dongcode where dongcode = (select dongcode from interestplace where email = #{loginEmail})) limit 10
+	</select>
+	
+	<select id="selectGugunName" resultType="string">
+		select gugunName from dongcode where dongcode = (select dongcode from interestplace where email = #{loginEmail})
+	</select>
+	
+	<select id="selectClinicInfo" resultType="clinic">
+		select * from clinic where instr(address, #{gugunName})
+	</select>
+	
+</mapper>

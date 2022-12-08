@@ -1,0 +1,79 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>글쓰기창</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script type="text/javascript">
+	function backToList() {
+		location.href = "../boardList";
+	}
+
+	$(document).ready(function() {
+		/* const data=$.cookie('logined');
+		if(data){
+			$("#msgDiv").html(data );		
+			$("#id").val($.cookie('id'));
+		}else{
+			alert("로그인 먼저 하세요");
+			window.close();
+		} */
+	});
+</script>
+<title>글쓰기창</title>
+</head>
+<body>
+	<div id="msgDiv"></div>
+	<div class="container">
+		<h3 style="text-align: center">글쓰기</h3>
+		<form name="articleForm" method="post" action="/board/write"
+			enctype="multipart/form-data">
+			<input type="hidden" name="csrf_token" value="${CSRF_TOKEN }">
+			<table class="table table-border">
+				<tr>
+					<td>작성자 :</td>
+					<td colspan=2><input type="text" size="50" maxlength="100"
+						id="id" name="writer" style="background: lightgray" /></td>
+				</tr>
+				<tr>
+					<td>글제목 :</td>
+					<td colspan="2"><input type="text" size="50" maxlength="300"
+						name="title" /></td>
+				</tr>
+				<tr>
+					<td valign="top"><br>글내용 :</td>
+					<td colspan=2><textarea name="content" rows="10" cols="53"
+							maxlength="4000"></textarea></td>
+				</tr>
+				<tr>
+					<td>파일 첨부 :</td>
+					<td><input type="file" name="file" /></td>
+				</tr>
+				<tr>
+					<td colspan="4"><div id="d_file"></div></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="2"><input type="submit" value="글쓰기"
+						class="btn btn-info" /> <input type=button value="목록보기"
+						onClick="backToList()" class="btn btn-warning" />
+						<input type=button value="웹캠" class="btn btn-warning" onClick="window.open('/html/cameraWeb.html', '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=750,height=400');"/>
+						</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

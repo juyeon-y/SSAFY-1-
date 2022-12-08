@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.member.mapper.MemberMapper">
+	<update id="updateInterestCity" parameterType="map">
+		update interestplace set dongCode = #{dongCode} where email= #{email}
+	</update>
+	<update id="updateMember" parameterType="member">
+		update member
+		set name     = #{name},
+			nickname =#{nickname},
+			password = #{password}
+		where email = #{email}
+
+	</update>
+
+	<select id="login" resultType="member" parameterType="member">
+		select * from member where email = #{email} and password= #{password}
+	</select>
+	
+	<select id="checkEmail" resultType="int" parameterType="string">
+		select count(*) as count from member where email = #{email}
+	</select>
+	
+	<insert id="joinMember" parameterType="member">
+		insert into member (email, name, password, nickname)
+		values (#{email}, #{name}, #{password}, #{nickname})
+	</insert>
+	
+	<select id="selectDongCode" resultType="string" parameterType="interestCity">
+		select dongCode from dongcode where sidoName = #{sidoName} and gugunName = #{gugunName} and dongName = #{dongName}
+	</select>
+	<select id="selectOne" resultType="com.ssafy.home.member.dto.Member" parameterType="string">
+		select * from member where email = #{email}
+	</select>
+	<select id="selectInterestCity" resultType="interestCity" parameterType="string">
+		select * from dongCode where dongcode = (select dongcode from interestplace where email = #{email} )
+	</select>
+	<insert id="insertInterestCity" parameterType="map">
+		insert into interestplace(email, dongCode) values (#{email}, #{dongCode})
+	</insert>
+</mapper>
